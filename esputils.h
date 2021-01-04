@@ -106,6 +106,4 @@ public:
 private:
     std::vector<Slot> m_slots;
 };
-
-
 } // namespace espcpputils
