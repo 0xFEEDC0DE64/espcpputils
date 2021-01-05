@@ -65,18 +65,6 @@
     } // namespace
 
 namespace espcpputils {
-template<class T>
-constexpr const T& clamp( const T& v, const T& lo, const T& hi )
-{
-    // assert( !(hi < lo) );
-    return (v < lo) ? lo : (hi < v) ? hi : v;
-}
-
-template<typename T>
-T mapValue(T x, T in_min, T in_max, T out_min, T out_max)
-{
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
 
 template<typename... T>
 class Signal
@@ -106,4 +94,73 @@ public:
 private:
     std::vector<Slot> m_slots;
 };
+
+namespace {
+template<typename T>
+T vmin(T&&t)
+{
+    return std::forward<T>(t);
+}
+
+template<typename T0, typename T1, typename... Ts>
+typename std::common_type<T0, T1, Ts...>::type vmin(T0&& val1, T1&& val2, Ts&&... vs)
+{
+    if (val1 < val2)
+        return vmin(val1, std::forward<Ts>(vs)...);
+    else
+        return vmin(val2, std::forward<Ts>(vs)...);
+}
+
+template<class T>
+constexpr const T& clamp( const T& v, const T& lo, const T& hi )
+{
+    // assert( !(hi < lo) );
+    return (v < lo) ? lo : (hi < v) ? hi : v;
+}
+
+template<typename T>
+T mapValue(T x, T in_min, T in_max, T out_min, T out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+template <typename... Args>
+struct EspNonConstOverload
+{
+    template <typename R, typename T>
+    constexpr auto operator()(R (T::*ptr)(Args...)) const noexcept -> decltype(ptr)
+    { return ptr; }
+    template <typename R, typename T>
+    static constexpr auto of(R (T::*ptr)(Args...)) noexcept -> decltype(ptr)
+    { return ptr; }
+};
+template <typename... Args>
+struct EspConstOverload
+{
+    template <typename R, typename T>
+    constexpr auto operator()(R (T::*ptr)(Args...) const) const noexcept -> decltype(ptr)
+    { return ptr; }
+    template <typename R, typename T>
+    static constexpr auto of(R (T::*ptr)(Args...) const) noexcept -> decltype(ptr)
+    { return ptr; }
+};
+template <typename... Args>
+struct EspOverload : EspConstOverload<Args...>, EspNonConstOverload<Args...>
+{
+    using EspConstOverload<Args...>::of;
+    using EspConstOverload<Args...>::operator();
+    using EspNonConstOverload<Args...>::of;
+    using EspNonConstOverload<Args...>::operator();
+    template <typename R>
+    constexpr auto operator()(R (*ptr)(Args...)) const noexcept -> decltype(ptr)
+    { return ptr; }
+    template <typename R>
+    static constexpr auto of(R (*ptr)(Args...)) noexcept -> decltype(ptr)
+    { return ptr; }
+};
+
+template <typename... Args> constexpr __attribute__((__unused__)) EspOverload<Args...> espOverload = {};
+template <typename... Args> constexpr __attribute__((__unused__)) EspConstOverload<Args...> espConstOverload = {};
+template <typename... Args> constexpr __attribute__((__unused__)) EspNonConstOverload<Args...> espNonConstOverload = {};
+} // namespace
 } // namespace espcpputils
