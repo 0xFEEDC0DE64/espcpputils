@@ -2,6 +2,7 @@
 
 // system includes
 #include <optional>
+#include <queue>
 
 // espressif includes
 #include <freertos/FreeRTOS.h>
@@ -29,7 +30,7 @@ public:
 
 private:
     espcpputils::recursive_mutex_semaphore m_lock;
-    std::vector<T> m_queue;
+    std::queue<T> m_queue;
     std::size_t m_size{}; // double-buffered to allow for reading without taking a lock
 };
 
@@ -37,7 +38,7 @@ template<typename T>
 void LockingQueue<T>::push(const T &val)
 {
     RecursiveLockHelper helper{m_lock.handle};
-    m_queue.push_back(val);
+    m_queue.push(val);
     m_size = m_queue.size();
 }
 
@@ -45,7 +46,7 @@ template<typename T>
 void LockingQueue<T>::push(T &&val)
 {
     RecursiveLockHelper helper{m_lock.handle};
-    m_queue.emplace_back(std::move(val));
+    m_queue.emplace(std::move(val));
     m_size = m_queue.size();
 }
 
@@ -57,7 +58,7 @@ std::optional<T> LockingQueue<T>::tryPop()
         return std::nullopt;
 
     std::optional<T> temp = std::move(m_queue.front());
-    m_queue.erase(std::begin(m_queue));
+    m_queue.pop();
     m_size = m_queue.size();
     return temp;
 }
