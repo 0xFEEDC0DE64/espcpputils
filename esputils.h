@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 #include <vector>
+#include <string>
+#include <string_view>
 
 /*
    Avoid "unused parameter" warnings
@@ -43,26 +45,26 @@
     { \
         Values(DECLARE_TYPESAFE_ENUM_HELPER1) \
     }; \
-    namespace { \
-    template<typename T> \
-    T toString(Name value) \
+    std::string toString(Name value); \
+    std::optional<Name> parse##Name(std::string_view str);
+
+#define IMPLEMENT_TYPESAFE_ENUM(Name, Derivation, Values) \
+    std::string toString(Name value) \
     { \
         switch (value) \
         { \
         using TheEnum = Name; \
         Values(DECLARE_TYPESAFE_ENUM_HELPER2) \
         } \
-        return T{"Unknown " #Name "("} + int(value) + ')'; \
+        return std::string{"Unknown " #Name "("} + std::to_string(int(value)) + ')'; \
     } \
-    template<typename T> \
-    std::optional<Name> parse##Name(const T &str) \
+    std::optional<Name> parse##Name(std::string_view str) \
     { \
     using TheEnum = Name; \
     if (false) {} \
     Values(DECLARE_TYPESAFE_ENUM_HELPER3) \
     return std::nullopt; \
-    } \
-    } // namespace
+    }
 
 namespace espcpputils {
 
