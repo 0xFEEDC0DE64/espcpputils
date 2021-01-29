@@ -220,5 +220,12 @@ struct EspOverload : EspConstOverload<Args...>, EspNonConstOverload<Args...>
 template <typename... Args> constexpr __attribute__((__unused__)) EspOverload<Args...> espOverload = {};
 template <typename... Args> constexpr __attribute__((__unused__)) EspConstOverload<Args...> espConstOverload = {};
 template <typename... Args> constexpr __attribute__((__unused__)) EspNonConstOverload<Args...> espNonConstOverload = {};
+
+template<typename First, typename ... T>
+bool is_in(First &&first, T && ... t)
+{
+    return ((first == t) || ...);
+}
+
 } // namespace
 } // namespace espcpputils
