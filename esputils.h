@@ -8,7 +8,6 @@
 #include <cstring>
 #include <string>
 #include <string_view>
-#include <random>
 
 /*
    Avoid "unused parameter" warnings
@@ -227,19 +226,6 @@ template<typename First, typename ... T>
 bool is_in(First &&first, T && ... t)
 {
     return ((first == t) || ...);
-}
-
-std::string randomString(std::size_t length)
-{
-    static constexpr auto chars =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    thread_local auto rng = std::default_random_engine();
-    auto dist = std::uniform_int_distribution{{}, std::strlen(chars) - 1};
-    auto result = std::string(length, '\0');
-    std::generate_n(std::begin(result), length, [&]() { return chars[dist(rng)]; });
-    return result;
 }
 
 } // namespace
