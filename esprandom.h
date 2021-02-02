@@ -18,8 +18,8 @@ public:
     result_type operator()() const { return esp_random(); }
 
     double entropy() const { return 1.; }
-    result_type min() const { return std::numeric_limits<result_type>::min(); }
-    result_type max() const { return std::numeric_limits<result_type>::max(); }
+    static result_type min() { return std::numeric_limits<result_type>::min(); }
+    static result_type max() { return std::numeric_limits<result_type>::max(); }
 };
 
 std::string randomString(std::size_t length)
