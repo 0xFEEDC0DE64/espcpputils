@@ -5,12 +5,12 @@
 #include <freertos/event_groups.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class event_group
 {
-    ESP_DISABLE_COPY_MOVE(event_group)
+    CPP_DISABLE_COPY_MOVE(event_group)
 
 public:
     event_group() :

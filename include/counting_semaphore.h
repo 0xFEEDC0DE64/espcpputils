@@ -6,12 +6,12 @@
 #include <freertos/task.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class counting_semaphore
 {
-    ESP_DISABLE_COPY_MOVE(counting_semaphore)
+    CPP_DISABLE_COPY_MOVE(counting_semaphore)
 
 public:
     counting_semaphore(UBaseType_t uxMaxCount, UBaseType_t uxInitialCount) :

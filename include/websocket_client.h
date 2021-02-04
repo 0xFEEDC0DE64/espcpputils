@@ -4,12 +4,12 @@
 #include <esp_websocket_client.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class websocket_client
 {
-    ESP_DISABLE_COPY_MOVE(websocket_client)
+    CPP_DISABLE_COPY_MOVE(websocket_client)
 
 public:
     websocket_client(const esp_websocket_client_config_t &config) :

@@ -5,12 +5,12 @@
 #include <freertos/semphr.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class RecursiveLockHelper
 {
-    ESP_DISABLE_COPY_MOVE(RecursiveLockHelper)
+    CPP_DISABLE_COPY_MOVE(RecursiveLockHelper)
 
 public:
     RecursiveLockHelper(QueueHandle_t _xMutex, TickType_t xTicksToWait=portMAX_DELAY) :

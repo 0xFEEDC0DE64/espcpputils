@@ -9,7 +9,6 @@
 #include <freertos/semphr.h>
 
 // local includes
-#include "esputils.h"
 #include "delayedconstruction.h"
 #include "recursive_mutex_semaphore.h"
 #include "recursivelockhelper.h"

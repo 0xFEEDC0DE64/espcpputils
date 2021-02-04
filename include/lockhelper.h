@@ -5,12 +5,12 @@
 #include <freertos/semphr.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class LockHelper
 {
-    ESP_DISABLE_COPY_MOVE(LockHelper)
+    CPP_DISABLE_COPY_MOVE(LockHelper)
 
 public:
     LockHelper(QueueHandle_t _xMutex, TickType_t xTicksToWait=portMAX_DELAY) :

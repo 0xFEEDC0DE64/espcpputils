@@ -4,12 +4,12 @@
 #include <esp_http_client.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class http_client
 {
-    ESP_DISABLE_COPY_MOVE(http_client)
+    CPP_DISABLE_COPY_MOVE(http_client)
 
 public:
     http_client(const esp_http_client_config_t *config) :

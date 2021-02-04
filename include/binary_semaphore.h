@@ -6,12 +6,12 @@
 #include <freertos/task.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class binary_semaphore
 {
-    ESP_DISABLE_COPY_MOVE(binary_semaphore)
+    CPP_DISABLE_COPY_MOVE(binary_semaphore)
 
 public:
     binary_semaphore() :

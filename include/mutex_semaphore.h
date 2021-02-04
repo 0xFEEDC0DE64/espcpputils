@@ -6,12 +6,12 @@
 #include <freertos/task.h>
 
 // local includes
-#include "esputils.h"
+#include "cppmacros.h"
 
 namespace espcpputils {
 class mutex_semaphore
 {
-    ESP_DISABLE_COPY_MOVE(mutex_semaphore)
+    CPP_DISABLE_COPY_MOVE(mutex_semaphore)
 
 public:
     mutex_semaphore() :
