@@ -29,7 +29,7 @@ public:
 
     UBaseType_t messagesWaiting() const                                         { return uxQueueMessagesWaiting(handle); }
 
-    UBaseType_t spacesAvailable() const                                         { return SpacesAvailable(handle); }
+    UBaseType_t spacesAvailable() const                                         { return uxQueueSpacesAvailable(handle); }
 
     BaseType_t reset()                                                          { return xQueueReset(handle); }
 
@@ -37,11 +37,13 @@ public:
 
     BaseType_t peek(void *pvBuffer, TickType_t xTicksToWait) const              { return xQueuePeek(handle, pvBuffer, xTicksToWait); }
 
+#if( configQUEUE_REGISTRY_SIZE > 0 )
     void addToRegistry(char *pcQueueName)                                       { return vQueueAddToRegistry(handle, pcQueueName); }
 
     void unregisterQueue()                                                      { return vQueueUnregisterQueue(handle); }
 
     const char *getName() const                                                 { return pcQueueGetName(handle); }
+#endif
 
     const QueueHandle_t handle;
 };
