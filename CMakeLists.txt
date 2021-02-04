@@ -1,16 +1,23 @@
 set(headers
-    include/lockhelper.h
-    include/lockingqueue.h
-    include/recursivelockhelper.h
-    include/esprandom.h
-    include/wrappers/binary_semaphore.h
-    include/wrappers/counting_semaphore.h
-    include/wrappers/event_group.h
-    include/wrappers/http_client.h
-    include/wrappers/mutex_semaphore.h
-    include/wrappers/queue.h
-    include/wrappers/recursive_mutex_semaphore.h
-    include/wrappers/websocket_client.h
+    src/asyncudplistener.h
+    src/esprandom.h
+    src/lockhelper.h
+    src/lockingqueue.h
+    src/recursivelockhelper.h
+    src/taskutils.h
+    src/wrappers/binary_semaphore.h
+    src/wrappers/counting_semaphore.h
+    src/wrappers/event_group.h
+    src/wrappers/http_client.h
+    src/wrappers/mutex_semaphore.h
+    src/wrappers/queue.h
+    src/wrappers/recursive_mutex_semaphore.h
+    src/wrappers/websocket_client.h
 )
 
-idf_component_register(INCLUDE_DIRS include SRCS ${headers} REQUIRES freertos esp_system esp_http_client esp_websocket_client cpputils)
+set(sources
+    src/asyncudplistener.cpp
+    src/taskutils.cpp
+)
+
+idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client cpputils lwip)
