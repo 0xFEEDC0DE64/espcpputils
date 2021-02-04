@@ -171,7 +171,7 @@ void AsyncUdpListener::poll(TickType_t xTicksToWait)
         return;
 
     lwip_event_packet_t *e{NULL};
-    while (_udp_queue->receive(&e, 0) == pdTRUE)
+    while (_udp_queue->receive(&e, xTicksToWait) == pdTRUE)
     {
         if (!e->pb)
         {
