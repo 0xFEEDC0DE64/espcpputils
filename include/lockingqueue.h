@@ -10,7 +10,7 @@
 
 // local includes
 #include "delayedconstruction.h"
-#include "recursive_mutex_semaphore.h"
+#include "wrappers/recursive_mutex_semaphore.h"
 #include "recursivelockhelper.h"
 
 namespace espcpputils {
