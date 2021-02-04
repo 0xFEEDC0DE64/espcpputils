@@ -4,6 +4,7 @@
 #include <limits>
 #include <random>
 #include <iterator>
+#include <cstring>
 
 // esp-idf includes
 #include <esp_system.h>
@@ -25,14 +26,14 @@ public:
 
 std::string randomString(std::size_t length)
 {
-    static constexpr const char chars[] =
+    static constexpr auto chars =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
 
     auto rng = esp_random_device{};
 
-    auto dist = std::uniform_int_distribution{{}, std::size(chars) - 1};
+    auto dist = std::uniform_int_distribution{{}, std::strlen(chars) - 1};
 
     auto result = std::string(length, '\0');
     std::generate_n(std::begin(result), length, [&]() { return chars[dist(rng)]; });
