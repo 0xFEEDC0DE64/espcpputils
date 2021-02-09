@@ -43,35 +43,6 @@ public:
     void      add_auth()                                     { return esp_http_client_add_auth(handle); }
     bool      is_complete_data_received() const              { return esp_http_client_is_complete_data_received(handle); }
 
-    static esp_http_client_config_t zeroInitializedConfig()
-    {
-        return esp_http_client_config_t {
-            .url = {},
-            .host = {},
-            .port = {},
-            .username = {},
-            .password = {},
-            .auth_type = {},
-            .path = {},
-            .query = {},
-            .cert_pem = {},
-            .client_cert_pem = {},
-            .client_key_pem = {},
-            .method = {},
-            .timeout_ms = {},
-            .disable_auto_redirect = {},
-            .max_redirection_count = {},
-            .event_handler = {},
-            .transport_type = {},
-            .buffer_size = {},
-            .buffer_size_tx = {},
-            .user_data = {},
-            .is_async = {},
-            .use_global_ca_store = {},
-            .skip_cert_common_name_check = {}
-        };
-    }
-
     const esp_http_client_handle_t handle;
 };
 } // namespace espcpputils
