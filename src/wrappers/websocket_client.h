@@ -25,8 +25,8 @@ public:
     int       send           (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send           (handle, data, len, timeout);       }
     int       send_bin       (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_bin       (handle, data, len, timeout);       }
     int       send_text      (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_text      (handle, data, len, timeout);       }
-    //esp_err_t close          (TickType_t timeout)                                      { return esp_websocket_client_close          (handle, timeout);                  }
-    //esp_err_t close_with_code(int code, const char *data, int len, TickType_t timeout) { return esp_websocket_client_close_with_code(handle, code, data, len, timeout); }
+    esp_err_t close          (TickType_t timeout)                                      { return esp_websocket_client_close          (handle, timeout);                  }
+    esp_err_t close_with_code(int code, const char *data, int len, TickType_t timeout) { return esp_websocket_client_close_with_code(handle, code, data, len, timeout); }
     bool      is_connected   () const                                                  { return esp_websocket_client_is_connected   (handle); }
     esp_err_t register_events(esp_websocket_event_id_t event, esp_event_handler_t event_handler, void *event_handler_arg)
     { return esp_websocket_register_events(handle, event, event_handler, event_handler_arg); }
