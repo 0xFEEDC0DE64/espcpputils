@@ -111,7 +111,7 @@ UdpPacketWrapper::UdpPacketWrapper(pbuf *pb, const ip_addr_t *raddr, uint16_t rp
         std::memcpy(&_localIp.u_addr.ip6.addr, (uint8_t *)ip6hdr->dest.addr, 16);
         std::memcpy(&_remoteIp.u_addr.ip6.addr, (uint8_t *)ip6hdr->src.addr, 16);
     }
-    std::memcpy(_remoteMac, eth->src.addr, 6);
+    _remoteMac = mac_t{eth->src.addr};
 
     struct netif *netif{NULL};
     void *nif{NULL};

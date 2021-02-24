@@ -1,6 +1,7 @@
 set(headers
     src/asyncudplistener.h
     src/espcrc32builder.h
+    src/espnetworkutils.h
     src/esprandom.h
     src/lockhelper.h
     src/lockingqueue.h

@@ -15,6 +15,7 @@
 // local includes
 #include "cppmacros.h"
 #include "delayedconstruction.h"
+#include "espnetworkutils.h"
 #include "wrappers/queue.h"
 
 namespace espcpputils {
@@ -25,7 +26,7 @@ class UdpPacketWrapper
 public:
     UdpPacketWrapper(pbuf *pb, const ip_addr_t *addr, uint16_t port, struct netif * netif);
 
-    const uint8_t * data() const { return _data; }
+    const uint8_t *data() const { return _data; }
     size_t length() const { return _len; }
     bool isBroadcast() const
     {
@@ -71,7 +72,7 @@ public:
 
     uint16_t remotePort() const { return _remotePort; }
 
-    void remoteMac(uint8_t * mac) const { std::memcpy(mac, _remoteMac, 6); }
+    mac_t remoteMac() const { return _remoteMac; }
 
 private:
     const pbuf *_pb;
@@ -80,7 +81,7 @@ private:
     uint16_t _localPort;
     ip_addr_t _remoteIp;
     uint16_t _remotePort;
-    uint8_t _remoteMac[6];
+    mac_t _remoteMac;
     const uint8_t *_data;
     size_t _len;
     size_t _index;
