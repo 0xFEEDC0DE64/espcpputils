@@ -7,6 +7,7 @@ set(headers
     src/lockingqueue.h
     src/recursivelockhelper.h
     src/taskutils.h
+    src/tickchrono.h
     src/wrappers/binary_semaphore.h
     src/wrappers/counting_semaphore.h
     src/wrappers/event_group.h
@@ -19,7 +20,8 @@ set(headers
 
 set(sources
     src/asyncudplistener.cpp
+    src/espchrono_impl.cpp
     src/taskutils.cpp
 )
 
-idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client cpputils lwip)
+idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client lwip cpputils espchrono)
