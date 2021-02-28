@@ -66,6 +66,6 @@ template<typename T>
 void LockingQueue<T>::clear()
 {
     RecursiveLockHelper helper{m_lock.handle};
-    m_queue.clear();
+    m_queue = {};
 }
 } // namespace espcpputils
