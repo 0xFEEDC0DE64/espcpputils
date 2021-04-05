@@ -1,7 +1,5 @@
 set(headers
-    src/asyncudplistener.h
     src/espcrc32builder.h
-    src/espnetworkutils.h
     src/esprandom.h
     src/lockhelper.h
     src/lockingqueue.h
@@ -19,9 +17,8 @@ set(headers
 )
 
 set(sources
-    src/asyncudplistener.cpp
     src/espchrono_impl.cpp
     src/taskutils.cpp
 )
 
-idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client lwip cpputils espchrono)
+idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client cpputils espchrono)
