@@ -1,6 +1,7 @@
 set(headers
     src/espcrc32builder.h
     src/esprandom.h
+    src/espstrutils.h
     src/lockhelper.h
     src/lockingqueue.h
     src/recursivelockhelper.h
@@ -18,6 +19,7 @@ set(headers
 
 set(sources
     src/espchrono_impl.cpp
+    src/espstrutils.cpp
     src/taskutils.cpp
 )
 
