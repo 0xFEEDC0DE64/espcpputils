@@ -18,7 +18,6 @@ set(headers
 )
 
 set(sources
-    src/espchrono_impl.cpp
     src/espstrutils.cpp
     src/taskutils.cpp
 )
