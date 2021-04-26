@@ -2,6 +2,7 @@
 
 // system includes
 #include <utility>
+#include <string_view>
 
 // espressif includes
 #include <esp_http_client.h>
@@ -27,19 +28,27 @@ public:
     operator bool() const { return handle != NULL; }
 
     esp_err_t perform()                                      { return esp_http_client_perform(handle); }
-    esp_err_t set_url(const char *url)                       { return esp_http_client_set_url(handle, url); }
-    esp_err_t set_post_field(const char *data, int len)      { return esp_http_client_set_post_field(handle, data, len); }
+    //esp_err_t set_url(const char *url)                       { return esp_http_client_set_url(handle, url); }
+    esp_err_t set_url(std::string_view url)                  { return esp_http_client_set_url(handle, url.data()); }
+    //esp_err_t set_post_field(const char *data, int len)      { return esp_http_client_set_post_field(handle, data, len); }
+    esp_err_t set_post_field(std::string_view buf)           { return esp_http_client_set_post_field(handle, buf.data(), buf.size()); }
     int       get_post_field(char **data)                    { return esp_http_client_get_post_field(handle, data); }
-    esp_err_t set_header(const char *key, const char *value) { return esp_http_client_set_header(handle, key, value); }
-    esp_err_t get_header(const char *key, char **value)      { return esp_http_client_get_header(handle, key, value); }
+    //esp_err_t set_header(const char *key, const char *value) { return esp_http_client_set_header(handle, key, value); }
+    esp_err_t set_header(std::string_view key, std::string_view value) { return esp_http_client_set_header(handle, key.data(), value.data()); }
+    //esp_err_t get_header(const char *key, char **value)      { return esp_http_client_get_header(handle, key, value); }
+    esp_err_t get_header(std::string_view key, char **value) { return esp_http_client_get_header(handle, key.data(), value); }
     esp_err_t get_username(char **value)                     { return esp_http_client_get_username(handle, value); }
-    esp_err_t set_username(const char *username)             { return esp_http_client_set_username(handle, username); }
+    //esp_err_t set_username(const char *username)             { return esp_http_client_set_username(handle, username); }
+    esp_err_t set_username(std::string_view username)        { return esp_http_client_set_username(handle, username.data()); }
     esp_err_t get_password(char **value)                     { return esp_http_client_get_password(handle, value); }
-    esp_err_t set_password(char *password)                   { return esp_http_client_set_password(handle, password); }
+    //esp_err_t set_password(const char *password)             { return esp_http_client_set_password(handle, password); }
+    esp_err_t set_password(std::string_view password)        { return esp_http_client_set_password(handle, password.data()); }
     esp_err_t set_method(esp_http_client_method_t method)    { return esp_http_client_set_method(handle, method); }
-    esp_err_t delete_header(const char *key)                 { return esp_http_client_delete_header(handle, key); }
+    //esp_err_t delete_header(const char *key)                 { return esp_http_client_delete_header(handle, key); }
+    esp_err_t delete_header(std::string_view key)            { return esp_http_client_delete_header(handle, key.data()); }
     esp_err_t open(int write_len)                            { return esp_http_client_open(handle, write_len); }
-    int       write(const char *buffer, int len)             { return esp_http_client_write(handle, buffer, len); }
+    //int       write(const char *buffer, int len)             { return esp_http_client_write(handle, buffer, len); }
+    int       write(std::string_view buf)                    { return esp_http_client_write(handle, buf.data(), buf.size()); }
     int       fetch_headers()                                { return esp_http_client_fetch_headers(handle); }
     bool      is_chunked_response() const                    { return esp_http_client_is_chunked_response(handle); }
     int       read(char *buffer, int len)                    { return esp_http_client_read(handle, buffer, len); }

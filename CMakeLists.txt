@@ -11,6 +11,7 @@ set(headers
     src/wrappers/counting_semaphore.h
     src/wrappers/event_group.h
     src/wrappers/http_client.h
+    src/wrappers/mqtt_client.h
     src/wrappers/mutex_semaphore.h
     src/wrappers/queue.h
     src/wrappers/recursive_mutex_semaphore.h
