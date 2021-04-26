@@ -22,4 +22,21 @@ set(sources
     src/taskutils.cpp
 )
 
-idf_component_register(INCLUDE_DIRS src SRCS ${headers} ${sources} REQUIRES freertos esp_system esp_http_client esp_websocket_client cpputils espchrono)
+set(dependencies
+    freertos
+    esp_system
+#    esp_http_client
+#    esp_websocket_client
+    cpputils
+    espchrono
+)
+
+idf_component_register(
+    INCLUDE_DIRS
+        src
+    SRCS
+        ${headers}
+        ${sources}
+    REQUIRES
+        ${dependencies}
+)
