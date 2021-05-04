@@ -10,8 +10,8 @@
 
 // local includes
 #include "delayedconstruction.h"
-#include "wrappers/recursive_mutex_semaphore.h"
-#include "recursivelockhelper.h"
+#include "wrappers/mutex_semaphore.h"
+#include "lockhelper.h"
 
 namespace espcpputils {
 template<typename T>
@@ -28,7 +28,7 @@ public:
     std::size_t size() const { return m_size; }
 
 private:
-    espcpputils::recursive_mutex_semaphore m_lock;
+    espcpputils::mutex_semaphore m_lock;
     std::queue<T> m_queue;
     std::size_t m_size{}; // double-buffered to allow for reading without taking a lock
 };
@@ -36,7 +36,7 @@ private:
 template<typename T>
 void LockingQueue<T>::push(const T &val)
 {
-    RecursiveLockHelper helper{m_lock.handle};
+    LockHelper helper{m_lock.handle};
     m_queue.push(val);
     m_size = m_queue.size();
 }
@@ -44,7 +44,7 @@ void LockingQueue<T>::push(const T &val)
 template<typename T>
 void LockingQueue<T>::push(T &&val)
 {
-    RecursiveLockHelper helper{m_lock.handle};
+    LockHelper helper{m_lock.handle};
     m_queue.emplace(std::move(val));
     m_size = m_queue.size();
 }
@@ -52,7 +52,7 @@ void LockingQueue<T>::push(T &&val)
 template<typename T>
 std::optional<T> LockingQueue<T>::tryPop()
 {
-    RecursiveLockHelper helper{m_lock.handle};
+    LockHelper helper{m_lock.handle};
     if (m_queue.empty())
         return std::nullopt;
 
@@ -65,7 +65,7 @@ std::optional<T> LockingQueue<T>::tryPop()
 template<typename T>
 void LockingQueue<T>::clear()
 {
-    RecursiveLockHelper helper{m_lock.handle};
+    LockHelper helper{m_lock.handle};
     m_queue = {};
 }
 } // namespace espcpputils

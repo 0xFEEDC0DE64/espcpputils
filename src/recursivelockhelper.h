@@ -13,40 +13,44 @@ class RecursiveLockHelper
     CPP_DISABLE_COPY_MOVE(RecursiveLockHelper)
 
 public:
-    RecursiveLockHelper(QueueHandle_t _xMutex, TickType_t xTicksToWait=portMAX_DELAY) :
-        xMutex{_xMutex}
-    {
-        locked = xSemaphoreTakeRecursive(xMutex, xTicksToWait);
-    }
+    RecursiveLockHelper(SemaphoreHandle_t _xMutex, TickType_t xTicksToWait = portMAX_DELAY) :
+        m_xMutex{xMutex},
+        m_locked{xSemaphoreTakeRecursive(xMutex, xTicksToWait) == pdPASS}
+    {}
 
     ~RecursiveLockHelper()
     {
-        if (locked)
-            xSemaphoreGiveRecursive(xMutex);
+        if (m_locked)
+            xSemaphoreGiveRecursive(m_xMutex);
     }
 
-    bool lock(TickType_t xTicksToWait=portMAX_DELAY)
+    bool lock(TickType_t xTicksToWait = portMAX_DELAY)
     {
-        if (locked)
+        if (m_locked)
             return false;
 
-        locked = xSemaphoreTakeRecursive(xMutex, xTicksToWait);
+        m_locked = xSemaphoreTakeRecursive(m_xMutex, xTicksToWait);
 
-        return locked;
+        return m_locked;
     }
 
     bool unlock()
     {
-        if (!locked)
+        if (!m_locked)
             return false;
 
-        locked = !xSemaphoreGiveRecursive(xMutex);
+        m_locked = !xSemaphoreGiveRecursive(m_xMutex);
 
-        return locked;
+        return m_locked;
+    }
+
+    bool locked() const
+    {
+        return m_locked;
     }
 
 private:
-    const QueueHandle_t xMutex;
-    bool locked;
+    const SemaphoreHandle_t m_xMutex;
+    bool m_locked;
 };
 } // namespace espcpputils
