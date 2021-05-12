@@ -1,6 +1,7 @@
 #pragma once
 
 // system includes
+#include <atomic>
 #include <optional>
 #include <queue>
 
@@ -25,12 +26,12 @@ public:
 
     void clear();
 
-    std::size_t size() const { return m_size; }
+    std::size_t size() const { return m_size.load(); }
 
 private:
     espcpputils::mutex_semaphore m_lock;
     std::queue<T> m_queue;
-    std::size_t m_size{}; // double-buffered to allow for reading without taking a lock
+    std::atomic<std::size_t> m_size{}; // double-buffered to allow for reading without taking a lock
 };
 
 template<typename T>
@@ -65,7 +66,16 @@ std::optional<T> LockingQueue<T>::tryPop()
 template<typename T>
 void LockingQueue<T>::clear()
 {
-    LockHelper helper{m_lock.handle};
-    m_queue = {};
+    std::queue<T> empty;
+
+    {
+        LockHelper helper{m_lock.handle};
+        //m_queue.clear();
+        //m_queue = {};
+        std::swap(empty, m_queue);
+        m_size = {};
+    }
+
+    // Deconstructing here the queue as the lock is already given back again
 }
 } // namespace espcpputils
