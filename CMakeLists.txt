@@ -41,3 +41,13 @@ idf_component_register(
     REQUIRES
         ${dependencies}
 )
+
+target_compile_options(${COMPONENT_TARGET}
+    PRIVATE
+        -fstack-reuse=all
+        -fstack-protector-all
+        -Wno-unused-function
+        -Wno-deprecated-declarations
+        -Wno-missing-field-initializers
+        -Wno-parentheses
+)
