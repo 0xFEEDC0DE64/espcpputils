@@ -6,6 +6,7 @@
 
 // espressif includes
 #include <esp_websocket_client.h>
+#include <esp_transport_ws.h>
 
 namespace espcpputils {
 class websocket_client
@@ -43,6 +44,21 @@ public:
     bool      is_connected   () const                                                  { return esp_websocket_client_is_connected   (handle); }
     esp_err_t register_events(esp_websocket_event_id_t event, esp_event_handler_t event_handler, void *event_handler_arg)
     { return esp_websocket_register_events(handle, event, event_handler, event_handler_arg); }
+
+    static std::string opcodeToString(ws_transport_opcodes op_code)
+    {
+        switch (op_code)
+        {
+        case WS_TRANSPORT_OPCODES_CONT:   return "CONT";
+        case WS_TRANSPORT_OPCODES_TEXT:   return "TEXT";
+        case WS_TRANSPORT_OPCODES_BINARY: return "BINARY";
+        case WS_TRANSPORT_OPCODES_CLOSE:  return "CLOSE";
+        case WS_TRANSPORT_OPCODES_PING:   return "PING";
+        case WS_TRANSPORT_OPCODES_PONG:   return "PONG";
+        case WS_TRANSPORT_OPCODES_FIN:    return "FIN";
+        default: return "unknown opcode(" + std::to_string(op_code) + ')';
+        }
+    }
 
 private:
     esp_websocket_client_handle_t handle;

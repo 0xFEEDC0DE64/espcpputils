@@ -27,9 +27,10 @@ set(dependencies
     freertos
     esp_system
 #    esp_http_client
-#    esp_websocket_client
+    esp_websocket_client
     cpputils
     espchrono
+    tcp_transport
 )
 
 idf_component_register(
