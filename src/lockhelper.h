@@ -16,7 +16,12 @@ public:
     LockHelper(SemaphoreHandle_t xMutex, TickType_t xTicksToWait = portMAX_DELAY) :
         m_xMutex{xMutex},
         m_locked{xSemaphoreTake(m_xMutex, xTicksToWait) == pdPASS}
-    {}
+    {
+        if (m_xMutex &&
+            xTicksToWait == portMAX_DELAY &&
+            !m_locked)
+            while (!lock(xTicksToWait));
+    }
 
     ~LockHelper()
     {
