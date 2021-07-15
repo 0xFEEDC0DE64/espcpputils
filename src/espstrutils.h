@@ -10,4 +10,6 @@ namespace espcpputils {
 
 std::string toString(sntp_sync_mode_t val);
 
+void urldecode(char *dst, const char *src);
+
 } // namespace espcpputils
