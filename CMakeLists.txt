@@ -1,4 +1,5 @@
 set(headers
+    src/espcppmacros.h
     src/espcrc32builder.h
     src/esprandom.h
     src/espstrutils.h
