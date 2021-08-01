@@ -30,9 +30,12 @@ set(dependencies
     esp_system
 #    esp_http_client
     esp_websocket_client
+    tcp_transport
+
     cpputils
     espchrono
-    tcp_transport
+    expected
+    fmt
 )
 
 idf_component_register(

@@ -8,6 +8,12 @@
 #include <esp_websocket_client.h>
 #include <esp_transport_ws.h>
 
+// 3rdparty lib includes
+#include <fmt/core.h>
+
+// local includes
+#include "futurecpp.h"
+
 namespace espcpputils {
 class websocket_client
 {
@@ -56,7 +62,7 @@ public:
         case WS_TRANSPORT_OPCODES_PING:   return "PING";
         case WS_TRANSPORT_OPCODES_PONG:   return "PONG";
         case WS_TRANSPORT_OPCODES_FIN:    return "FIN";
-        default: return "unknown opcode(" + std::to_string(op_code) + ')';
+        default: return fmt::format("unknown opcode({})", std::to_underlying(op_code));
         }
     }
 
