@@ -2,6 +2,7 @@
 
 // esp-idf includes
 #include <esp_log.h>
+#include <http_parser.h>
 
 // 3rdparty lib includes
 #include <fmt/core.h>
@@ -55,6 +56,15 @@ void urldecode(char *dst, const char *src)
     }
 
     *dst++ = '\0';
+}
+
+tl::expected<void, std::string> urlverify(std::string_view str)
+{
+    http_parser_url puri;
+    http_parser_url_init(&puri);
+    if (const auto result = http_parser_parse_url(str.data(), str.size(), 0, &puri); result != 0)
+        return tl::make_unexpected(fmt::format("http_parser_parse_url() failed parsing the url with {}", result));
+    return {};
 }
 
 } // namespace espcpputils

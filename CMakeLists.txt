@@ -30,6 +30,7 @@ set(dependencies
     esp_system
 #    esp_http_client
     esp_websocket_client
+    nghttp
     tcp_transport
 
     cpputils
