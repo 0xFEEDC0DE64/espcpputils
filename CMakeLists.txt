@@ -7,6 +7,7 @@ set(headers
     src/lockhelper.h
     src/lockingqueue.h
     src/recursivelockhelper.h
+    src/schedulertask.h
     src/taskutils.h
     src/tickchrono.h
     src/wrappers/binary_semaphore.h
@@ -22,6 +23,7 @@ set(headers
 
 set(sources
     src/espstrutils.cpp
+    src/schedulertask.cpp
     src/taskutils.cpp
 )
 

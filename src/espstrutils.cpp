@@ -1,5 +1,8 @@
 #include "espstrutils.h"
 
+#include "sdkconfig.h"
+#define LOG_LOCAL_LEVEL CONFIG_ESPCPPUTILS_LOG_LOCAL_LEVEL
+
 // esp-idf includes
 #include <esp_log.h>
 
