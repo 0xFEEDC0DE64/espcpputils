@@ -26,4 +26,20 @@ std::string toString(sntp_sync_mode_t val)
     }
 }
 
+std::string toString(esp_log_level_t val)
+{
+    switch (val)
+    {
+    case ESP_LOG_NONE:    return "NONE";
+    case ESP_LOG_ERROR:   return "ERROR";
+    case ESP_LOG_WARN:    return "WARN";
+    case ESP_LOG_INFO:    return "INFO";
+    case ESP_LOG_DEBUG:   return "DEBUG";
+    case ESP_LOG_VERBOSE: return "VERBOSE";
+    default:
+        ESP_LOGW(TAG, "unknown esp_log_level_t(%i)", std::to_underlying(val));
+        return fmt::format("Unknown esp_log_level_t({})", std::to_underlying(val));
+    }
+}
+
 } // namespace espcpputils

@@ -16,5 +16,9 @@ static_assert(pdMS_TO_TICKS(1000) == ticks(std::chrono::seconds(1)).count());
 static_assert(pdMS_TO_TICKS(100) == std::chrono::floor<ticks>(std::chrono::milliseconds(100)).count());
 static_assert(pdMS_TO_TICKS(10) == std::chrono::floor<ticks>(std::chrono::milliseconds(10)).count());
 
+inline void delay(std::chrono::milliseconds ms)
+{
+    vTaskDelay(std::chrono::ceil<espcpputils::ticks>(ms).count());
+}
 } // namespace espcpputils
 
