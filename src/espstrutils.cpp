@@ -29,6 +29,19 @@ std::string toString(sntp_sync_mode_t val)
     }
 }
 
+std::string toString(sntp_sync_status_t val)
+{
+    switch (val)
+    {
+    case SNTP_SYNC_STATUS_RESET:       return "RESET";
+    case SNTP_SYNC_STATUS_COMPLETED:   return "COMPLETED";
+    case SNTP_SYNC_STATUS_IN_PROGRESS: return "IN_PROGRESS";
+    default:
+        ESP_LOGW(TAG, "unknown sntp_sync_status_t(%i)", std::to_underlying(val));
+        return fmt::format("Unknown sntp_sync_status_t({})", std::to_underlying(val));
+    }
+}
+
 std::string toString(esp_log_level_t val)
 {
     switch (val)
