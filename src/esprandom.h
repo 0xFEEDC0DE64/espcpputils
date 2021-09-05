@@ -2,15 +2,11 @@
 
 // system includes
 #include <limits>
-#include <random>
-#include <iterator>
-#include <cstring>
 
 // esp-idf includes
 #include <esp_system.h>
 
 namespace espcpputils {
-namespace {
 
 class esp_random_device
 {
@@ -24,21 +20,4 @@ public:
     static result_type max() { return std::numeric_limits<result_type>::max(); }
 };
 
-std::string randomString(std::size_t length)
-{
-    static constexpr auto chars =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-
-    auto rng = esp_random_device{};
-
-    auto dist = std::uniform_int_distribution{{}, std::strlen(chars) - 1};
-
-    auto result = std::string(length, '\0');
-    std::generate_n(std::begin(result), length, [&]() { return chars[dist(rng)]; });
-    return result;
-}
-
-} // namespace
 } // namespace espcpputils
