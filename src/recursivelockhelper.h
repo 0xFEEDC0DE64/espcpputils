@@ -13,7 +13,7 @@ class RecursiveLockHelper
     CPP_DISABLE_COPY_MOVE(RecursiveLockHelper)
 
 public:
-    RecursiveLockHelper(SemaphoreHandle_t _xMutex, TickType_t xTicksToWait = portMAX_DELAY) :
+    RecursiveLockHelper(SemaphoreHandle_t xMutex, TickType_t xTicksToWait = portMAX_DELAY) :
         m_xMutex{xMutex},
         m_locked{xSemaphoreTakeRecursive(xMutex, xTicksToWait) == pdPASS}
     {}
