@@ -3,8 +3,11 @@
 #include "sdkconfig.h"
 #define LOG_LOCAL_LEVEL CONFIG_ESPCPPUTILS_LOG_LOCAL_LEVEL
 
+#include <assert.h>
+
 // esp-idf includes
 #include <esp_log.h>
+#include <sodium/utils.h>
 
 // 3rdparty lib includes
 #include <fmt/core.h>
@@ -56,6 +59,20 @@ std::string toString(esp_log_level_t val)
         ESP_LOGW(TAG, "unknown esp_log_level_t(%i)", std::to_underlying(val));
         return fmt::format("Unknown esp_log_level_t({})", std::to_underlying(val));
     }
+}
+
+std::string toHexString(std::basic_string_view<unsigned char> buf)
+{
+    std::string hex(buf.size() * 2 + 1, {});
+    assert(hex.size() == buf.size() * 2 + 1);
+
+    const char *ptr = sodium_bin2hex(hex.data(), hex.size(), buf.data(), buf.size());
+
+    hex.resize(hex.size() - 1);
+    assert(hex.size() == buf.size() * 2);
+
+    ESP_LOGI(TAG, "sodium=%p end=%p", ptr, &*std::end(hex));
+    return hex;
 }
 
 } // namespace espcpputils
