@@ -66,7 +66,7 @@ std::string toHexString(std::basic_string_view<unsigned char> buf)
     std::string hex(buf.size() * 2 + 1, {});
     assert(hex.size() == buf.size() * 2 + 1);
 
-    const char *ptr = sodium_bin2hex(hex.data(), hex.size(), buf.data(), buf.size());
+    sodium_bin2hex(hex.data(), hex.size(), buf.data(), buf.size());
 
     hex.resize(hex.size() - 1);
     assert(hex.size() == buf.size() * 2);
