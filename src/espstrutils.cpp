@@ -71,7 +71,6 @@ std::string toHexString(std::basic_string_view<unsigned char> buf)
     hex.resize(hex.size() - 1);
     assert(hex.size() == buf.size() * 2);
 
-    ESP_LOGI(TAG, "sodium=%p end=%p", ptr, &*std::end(hex));
     return hex;
 }
 
