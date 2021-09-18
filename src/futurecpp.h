@@ -3,6 +3,7 @@
 // system includes
 #include <cstring>
 #include <limits>
+#include <type_traits>
 
 // C++20 backports (until espressif finally updates their aged compiler suite)
 
