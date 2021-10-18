@@ -61,6 +61,27 @@ std::string toString(esp_log_level_t val)
     }
 }
 
+std::string toString(esp_reset_reason_t val)
+{
+    switch (val)
+    {
+    case ESP_RST_UNKNOWN:   return "UNKNOWN";
+    case ESP_RST_POWERON:   return "POWERON";
+    case ESP_RST_EXT:       return "EXT";
+    case ESP_RST_SW:        return "SW";
+    case ESP_RST_PANIC:     return "PANIC";
+    case ESP_RST_INT_WDT:   return "INT_WDT";
+    case ESP_RST_TASK_WDT:  return "TASK_WDT";
+    case ESP_RST_WDT:       return "WDT";
+    case ESP_RST_DEEPSLEEP: return "DEEPSLEEP";
+    case ESP_RST_BROWNOUT:  return "BROWNOUT";
+    case ESP_RST_SDIO:      return "SDIO";
+    default:
+        ESP_LOGW(TAG, "unknown esp_reset_reason_t(%i)", std::to_underlying(val));
+        return fmt::format("Unknown esp_reset_reason_t({})", std::to_underlying(val));
+    }
+}
+
 std::string toHexString(std::basic_string_view<unsigned char> buf)
 {
     std::string hex(buf.size() * 2 + 1, {});
