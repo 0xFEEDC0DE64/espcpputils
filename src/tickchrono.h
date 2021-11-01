@@ -7,6 +7,7 @@
 // esp-idf includes
 #include <freertos/FreeRTOS.h>
 #include <freertos/projdefs.h>
+#include <freertos/task.h>
 
 namespace espcpputils {
 
