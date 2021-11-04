@@ -95,4 +95,27 @@ std::string toHexString(std::basic_string_view<unsigned char> buf)
     return hex;
 }
 
+tl::expected<std::basic_string_view<unsigned char>, std::string> fromHexString(std::string_view str)
+{
+    const auto binMaxLen = (str.size()+1)/2;
+    uint8_t binBuf[binMaxLen];
+
+    size_t binLen;
+    if (const auto result = sodium_hex2bin(binBuf, binMaxLen, str.data(), str.size(), NULL, &binLen, NULL); result != 0)
+    {
+        ESP_LOGW(TAG, "sodium_hex2bin() failed with %i", result);
+        return tl::make_unexpected(fmt::format("sodium_hex2bin() failed with {}", result));
+    }
+
+    if (binLen != str.size() / 2)
+    {
+        ESP_LOGW(TAG, "invalid hex");
+        return tl::make_unexpected("invalid hex");
+    }
+
+    const std::basic_string_view<unsigned char> bin{binBuf, binLen};
+
+    return bin;
+}
+
 } // namespace espcpputils
