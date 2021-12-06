@@ -44,6 +44,7 @@ public:
     //esp_err_t set_password(const char *password)             { return esp_http_client_set_password(handle, password); }
     esp_err_t set_password(std::string_view password)        { return esp_http_client_set_password(handle, password.data()); }
     esp_err_t set_method(esp_http_client_method_t method)    { return esp_http_client_set_method(handle, method); }
+    esp_err_t set_timeout_ms(int timeout_ms)                 { return esp_http_client_set_timeout_ms(handle, timeout_ms); }
     //esp_err_t delete_header(const char *key)                 { return esp_http_client_delete_header(handle, key); }
     esp_err_t delete_header(std::string_view key)            { return esp_http_client_delete_header(handle, key.data()); }
     esp_err_t open(int write_len)                            { return esp_http_client_open(handle, write_len); }
