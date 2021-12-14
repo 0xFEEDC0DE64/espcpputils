@@ -38,8 +38,6 @@ public:
     esp_err_t set_uri        (std::string_view uri)                                    { return esp_websocket_client_set_uri        (handle, uri.data());               }
     esp_err_t start          ()                                                        { return esp_websocket_client_start          (handle);                           }
     esp_err_t stop           ()                                                        { return esp_websocket_client_stop           (handle);                           }
-    //int       send           (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send           (handle, data, len, timeout);       }
-    int       send           (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send           (handle, buf.data(), buf.size(), timeout); }
     //int       send_bin       (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_bin       (handle, data, len, timeout);       }
     int       send_bin       (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send_bin       (handle, buf.data(), buf.size(), timeout); }
     //int       send_text      (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_text      (handle, data, len, timeout);       }
