@@ -23,11 +23,6 @@ constexpr const char * const TAG = "ESPCPPUTILS";
 tl::expected<char *, std::string> sodium_bin2hex(char * const hex, const size_t hex_maxlen,
                      const unsigned char * const bin, const size_t bin_len)
     __attribute__ ((nonnull(1)));
-tl::expected<void, std::string> sodium_hex2bin(unsigned char * const bin, const size_t bin_maxlen,
-                   const char * const hex, const size_t hex_len,
-                   const char * const ignore, size_t * const bin_len,
-                   const char ** const hex_end)
-    __attribute__ ((nonnull(1)));
 } // namespace
 
 std::string toString(sntp_sync_mode_t val)
@@ -110,28 +105,50 @@ std::string toHexString(std::basic_string_view<unsigned char> buf)
     return hex;
 }
 
-tl::expected<std::basic_string_view<unsigned char>, std::string> fromHexString(std::string_view str)
+tl::expected<std::basic_string<unsigned char>, std::string> fromHexString(std::string_view hex)
 {
-    const auto binMaxLen = (str.size()+1)/2;
-    uint8_t binBuf[binMaxLen];
+    if (hex.size() % 2 != 0)
+        return tl::make_unexpected("hex length not even");
 
-    size_t binLen;
-    if (const auto result = sodium_hex2bin(binBuf, binMaxLen, str.data(), str.size(), NULL, &binLen, NULL); !result)
+    std::basic_string<unsigned char> result;
+    result.reserve(hex.size() / 2);
+
+    for (auto iter = std::cbegin(hex); iter != std::cend(hex); )
     {
-        auto msg = fmt::format("sodium_hex2bin() failed with {}", result.error());
-        ESP_LOGW(TAG, "%.*s", msg.size(), msg.data());
-        return tl::make_unexpected(std::move(msg));
+        union {
+            unsigned char c;
+            struct {
+                unsigned char nibble1:4;
+                unsigned char nibble0:4;
+            } nibbles;
+        };
+
+        switch (const auto c = *iter)
+        {
+        case '0'...'9': nibbles.nibble0 = c - '0'; break;
+        case 'A'...'F': nibbles.nibble0 = c - 'A' + 10; break;
+        case 'a'...'f': nibbles.nibble0 = c - 'a' + 10; break;
+        default:
+            return tl::make_unexpected(fmt::format("invalid character {} at pos {}", c, std::distance(std::begin(hex), iter)));
+        }
+
+        iter++;
+
+        switch (const auto c = *iter)
+        {
+        case '0'...'9': nibbles.nibble1 = c - '0'; break;
+        case 'A'...'F': nibbles.nibble1 = c - 'A' + 10; break;
+        case 'a'...'f': nibbles.nibble1 = c - 'a' + 10; break;
+        default:
+            return tl::make_unexpected(fmt::format("invalid character {} at pos {}", c, std::distance(std::begin(hex), iter)));
+        }
+
+        iter++;
+
+        result.push_back(c);
     }
 
-    if (binLen != str.size() / 2)
-    {
-        ESP_LOGW(TAG, "invalid hex");
-        return tl::make_unexpected("invalid hex");
-    }
-
-    const std::basic_string_view<unsigned char> bin{binBuf, binLen};
-
-    return bin;
+    return result;
 }
 
 namespace {
@@ -161,66 +178,6 @@ sodium_bin2hex(char *const hex, const size_t hex_maxlen,
     hex[i * 2U] = 0U;
 
     return hex;
-}
-
-tl::expected<void, std::string>
-sodium_hex2bin(unsigned char *const bin, const size_t bin_maxlen,
-               const char *const hex, const size_t hex_len,
-               const char *const ignore, size_t *const bin_len,
-               const char **const hex_end)
-{
-    size_t        bin_pos = (size_t) 0U;
-    size_t        hex_pos = (size_t) 0U;
-    tl::expected<void, std::string> ret;
-    unsigned char c;
-    unsigned char c_acc = 0U;
-    unsigned char c_alpha0, c_alpha;
-    unsigned char c_num0, c_num;
-    unsigned char c_val;
-    unsigned char state = 0U;
-
-    while (hex_pos < hex_len) {
-        c        = (unsigned char) hex[hex_pos];
-        c_num    = c ^ 48U;
-        c_num0   = (c_num - 10U) >> 8;
-        c_alpha  = (c & ~32U) - 55U;
-        c_alpha0 = ((c_alpha - 10U) ^ (c_alpha - 16U)) >> 8;
-        if ((c_num0 | c_alpha0) == 0U) {
-            if (ignore != NULL && state == 0U && strchr(ignore, c) != NULL) {
-                hex_pos++;
-                continue;
-            }
-            break;
-        }
-        c_val = (c_num0 & c_num) | (c_alpha0 & c_alpha);
-        if (bin_pos >= bin_maxlen) {
-            ret = tl::make_unexpected("ERANGE because bin_pos >= bin_maxlen"s);
-            break;
-        }
-        if (state == 0U) {
-            c_acc = c_val * 16U;
-        } else {
-            bin[bin_pos++] = c_acc | c_val;
-        }
-        state = ~state;
-        hex_pos++;
-    }
-    if (state != 0U) {
-        hex_pos--;
-        ret   = tl::make_unexpected("EINVAL because state != 0U"s);
-    }
-    if (!ret) {
-        bin_pos = (size_t) 0U;
-    }
-    if (hex_end != NULL) {
-        *hex_end = &hex[hex_pos];
-    } else if (hex_pos != hex_len) {
-        ret   = tl::make_unexpected("EINVAL because hex_pos != hex_len"s);
-    }
-    if (bin_len != NULL) {
-        *bin_len = bin_pos;
-    }
-    return ret;
 }
 } // namespace
 } // namespace espcpputils

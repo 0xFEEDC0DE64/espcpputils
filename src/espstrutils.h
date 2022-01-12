@@ -24,10 +24,6 @@ inline std::string toHexString(std::string_view str)
     return toHexString(std::basic_string_view<unsigned char>{reinterpret_cast<const unsigned char *>(str.data()), str.size()});
 }
 
-tl::expected<std::basic_string_view<unsigned char>, std::string> fromHexString(std::string_view str);
-inline tl::expected<std::basic_string_view<unsigned char>, std::string> fromHexString(std::basic_string_view<unsigned char> str)
-{
-    return fromHexString(std::string_view{reinterpret_cast<const char *>(str.data()), str.size()});
-}
+tl::expected<std::basic_string<unsigned char>, std::string> fromHexString(std::string_view hex);
 
 } // namespace espcpputils
