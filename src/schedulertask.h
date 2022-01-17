@@ -23,7 +23,7 @@ public:
     const std::chrono::milliseconds &maxElapsed() const { return m_maxElapsed; }
     int callCount() const { return m_callCount; }
 
-    void setup() const { m_setupCallback(); }
+    void setup() const { m_setupCallback(); m_wasInitialized = true; }
     void loop();
     void pushStats(bool printTask);
 
@@ -47,5 +47,6 @@ private:
     std::chrono::milliseconds m_totalElapsedTemp;
     std::chrono::milliseconds m_maxElapsedTemp;
     int m_callCountTemp{};
+    bool m_wasInitialized{};
 };
 } // namespace espcpputils
