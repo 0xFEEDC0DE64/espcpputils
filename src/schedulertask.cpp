@@ -14,8 +14,10 @@ namespace {
 constexpr const char * const TAG = "ESPCPPUTILS";
 } // namespace
 
-SchedulerTask::SchedulerTask(const char *name, void (&setupCallback)(), void (&loopCallback)(), std::chrono::milliseconds loopInterval, bool intervalImportant, std::string (*perfInfo)()) :
-    m_name{name}, m_setupCallback{setupCallback}, m_loopCallback{loopCallback}, m_loopInterval{loopInterval}, m_intervalImportant{intervalImportant}, m_perfInfo{perfInfo}
+SchedulerTask::SchedulerTask(const char *name, void (&setupCallback)(), void (&loopCallback)(), espchrono::millis_clock::duration loopInterval,
+                             bool intervalImportant, std::string (*perfInfo)()) :
+    m_name{name}, m_setupCallback{setupCallback}, m_loopCallback{loopCallback}, m_loopInterval{loopInterval},
+    m_intervalImportant{intervalImportant}, m_perfInfo{perfInfo}
 {
 }
 
@@ -53,10 +55,10 @@ trotzdem:
 
     if (m_lastElapsed < 100ms)
         ESP_LOGV(TAG, "task %s hang for %lldms (heap8=%zd)",
-                 m_name, std::chrono::milliseconds{m_lastElapsed}.count(), heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
+                 m_name, std::chrono::floor<std::chrono::milliseconds>(m_lastElapsed).count(), heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
     else
         ESP_LOGW(TAG, "task %s hang for %lldms (heap8=%zd) %s",
-                 m_name, std::chrono::milliseconds{m_lastElapsed}.count(), heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT),
+                 m_name, std::chrono::floor<std::chrono::milliseconds>(m_lastElapsed).count(), heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT),
                  m_perfInfo ? m_perfInfo().c_str() : "");
 }
 
@@ -64,7 +66,7 @@ void SchedulerTask::pushStats(bool printTask)
 {
     m_callCount = m_callCountTemp;
     m_totalElapsed = m_totalElapsedTemp;
-    m_averageElapsed = m_callCount > 0 ? (m_totalElapsed / m_callCount) : std::chrono::milliseconds{};
+    m_averageElapsed = m_callCount > 0 ? (m_totalElapsed / m_callCount) : espchrono::millis_clock::duration{};
     m_maxElapsed = m_maxElapsedTemp;
 
     m_callCountTemp = 0;
@@ -74,9 +76,9 @@ void SchedulerTask::pushStats(bool printTask)
     if (printTask)
         ESP_LOGI(TAG, "name=%s, count=%i, last=%lldms, total=%lldms, max=%lldms",
                  m_name, m_callCount,
-                 std::chrono::milliseconds{m_lastElapsed}.count(),
-                 std::chrono::milliseconds{m_totalElapsed}.count(),
-                 std::chrono::milliseconds{m_maxElapsed}.count()
+                 std::chrono::floor<std::chrono::milliseconds>(m_lastElapsed).count(),
+                 std::chrono::floor<std::chrono::milliseconds>(m_totalElapsed).count(),
+                 std::chrono::floor<std::chrono::milliseconds>(m_maxElapsed).count()
         );
 }
 
