@@ -34,18 +34,20 @@ public:
 
     operator bool() const { return handle != NULL; }
 
-    //esp_err_t set_uri        (const char *uri)                                         { return esp_websocket_client_set_uri        (handle, uri);                      }
-    esp_err_t set_uri        (std::string_view uri)                                    { return esp_websocket_client_set_uri        (handle, uri.data());               }
-    esp_err_t start          ()                                                        { return esp_websocket_client_start          (handle);                           }
-    esp_err_t stop           ()                                                        { return esp_websocket_client_stop           (handle);                           }
-    //int       send_bin       (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_bin       (handle, data, len, timeout);       }
-    int       send_bin       (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send_bin       (handle, buf.data(), buf.size(), timeout); }
-    //int       send_text      (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_text      (handle, data, len, timeout);       }
-    int       send_text      (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send_text      (handle, buf.data(), buf.size(), timeout); }
-    esp_err_t close          (TickType_t timeout)                                      { return esp_websocket_client_close          (handle, timeout);                  }
-    //esp_err_t close_with_code(int code, const char *data, int len, TickType_t timeout) { return esp_websocket_client_close_with_code(handle, code, data, len, timeout); }
-    esp_err_t close_with_code(int code, std::string_view buf, TickType_t timeout)      { return esp_websocket_client_close_with_code(handle, code, buf.data(), buf.size(), timeout); }
-    bool      is_connected   () const                                                  { return esp_websocket_client_is_connected   (handle); }
+    //esp_err_t set_uri              (const char *uri)                                         { return esp_websocket_client_set_uri              (handle, uri);                      }
+    esp_err_t set_uri              (std::string_view uri)                                    { return esp_websocket_client_set_uri              (handle, uri.data());               }
+    esp_err_t start                ()                                                        { return esp_websocket_client_start                (handle);                           }
+    esp_err_t stop                 ()                                                        { return esp_websocket_client_stop                 (handle);                           }
+    //int       send_bin             (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_bin             (handle, data, len, timeout);       }
+    int       send_bin             (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send_bin             (handle, buf.data(), buf.size(), timeout); }
+    //int       send_text            (const char *data, int len, TickType_t timeout)           { return esp_websocket_client_send_text            (handle, data, len, timeout);       }
+    int       send_text            (std::string_view buf, TickType_t timeout)                { return esp_websocket_client_send_text            (handle, buf.data(), buf.size(), timeout); }
+    esp_err_t close                (TickType_t timeout)                                      { return esp_websocket_client_close                (handle, timeout);                  }
+    //esp_err_t close_with_code      (int code, const char *data, int len, TickType_t timeout) { return esp_websocket_client_close_with_code      (handle, code, data, len, timeout); }
+    esp_err_t close_with_code      (int code, std::string_view buf, TickType_t timeout)      { return esp_websocket_client_close_with_code      (handle, code, buf.data(), buf.size(), timeout); }
+    bool      is_connected         () const                                                  { return esp_websocket_client_is_connected         (handle); }
+    size_t    get_ping_interval_sec() const                                                  { return esp_websocket_client_get_ping_interval_sec(handle); }
+    esp_err_t set_ping_interval_sec(size_t ping_interval_sec)                                { return esp_websocket_client_set_ping_interval_sec(handle, ping_interval_sec);        }
     esp_err_t register_events(esp_websocket_event_id_t event, esp_event_handler_t event_handler, void *event_handler_arg)
     { return esp_websocket_register_events(handle, event, event_handler, event_handler_arg); }
 
