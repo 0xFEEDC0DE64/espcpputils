@@ -31,6 +31,7 @@ set(dependencies
     freertos
     esp_system
 #    esp_http_client
+    esp_hw_support
     esp_websocket_client
     tcp_transport
 

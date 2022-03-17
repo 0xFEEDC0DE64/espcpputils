@@ -4,7 +4,7 @@
 #include <limits>
 
 // esp-idf includes
-#include <esp_system.h>
+#include <esp_random.h>
 
 namespace espcpputils {
 
