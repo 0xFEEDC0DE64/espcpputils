@@ -45,5 +45,4 @@ BaseType_t createTask(TaskFunction_t pvTaskCode,
     }
 }
 
-IMPLEMENT_TYPESAFE_ENUM(CoreAffinity, : uint8_t, CoreAffinityValues)
 } // namespace espcpputils
