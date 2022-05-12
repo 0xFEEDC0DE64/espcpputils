@@ -1,5 +1,8 @@
 #pragma once
 
+// system includes
+#include <cstddef>
+
 // esp-idf includes
 #include <esp32/rom/crc.h>
 
