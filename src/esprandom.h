@@ -16,8 +16,8 @@ public:
     result_type operator()() const { return esp_random(); }
 
     double entropy() const { return 1.; }
-    static result_type min() { return std::numeric_limits<result_type>::min(); }
-    static result_type max() { return std::numeric_limits<result_type>::max(); }
+    static constexpr result_type min()  { return std::numeric_limits<result_type>::min(); }
+    static constexpr result_type max() { return std::numeric_limits<result_type>::max(); }
 };
 
 } // namespace espcpputils
