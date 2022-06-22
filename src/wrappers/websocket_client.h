@@ -3,16 +3,14 @@
 // system includes
 #include <utility>
 #include <string_view>
+#include <utility>
 
-// espressif includes
+// esp-idf includes
 #include <esp_websocket_client.h>
 #include <esp_transport_ws.h>
 
 // 3rdparty lib includes
 #include <fmt/core.h>
-
-// local includes
-#include "futurecpp.h"
 
 namespace espcpputils {
 class websocket_client

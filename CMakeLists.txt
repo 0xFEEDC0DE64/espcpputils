@@ -3,7 +3,6 @@ set(headers
     src/espcrc32builder.h
     src/esprandom.h
     src/espstrutils.h
-    src/futurecpp.h
     src/lockhelper.h
     src/lockingqueue.h
     src/recursivelockhelper.h

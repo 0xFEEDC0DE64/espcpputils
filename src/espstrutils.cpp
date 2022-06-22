@@ -3,16 +3,15 @@
 #include "sdkconfig.h"
 #define LOG_LOCAL_LEVEL CONFIG_ESPCPPUTILS_LOG_LOCAL_LEVEL
 
+// system includes
 #include <assert.h>
+#include <utility>
 
 // esp-idf includes
 #include <esp_log.h>
 
 // 3rdparty lib includes
 #include <fmt/core.h>
-
-// local includes
-#include "futurecpp.h"
 
 using namespace std::string_literals;
 
