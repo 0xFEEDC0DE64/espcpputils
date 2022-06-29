@@ -22,6 +22,7 @@ set(headers
 
 set(sources
     src/espstrutils.cpp
+    src/linker_hacks.cpp
     src/schedulertask.cpp
     src/taskutils.cpp
 )
