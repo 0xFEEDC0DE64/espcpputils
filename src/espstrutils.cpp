@@ -10,6 +10,7 @@
 #include <esp_log.h>
 
 // 3rdparty lib includes
+#include <futurecpp.h>
 #include <fmt/core.h>
 
 using namespace std::string_literals;

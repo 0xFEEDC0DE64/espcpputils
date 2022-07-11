@@ -11,6 +11,7 @@
 
 // 3rdparty lib includes
 #include <fmt/core.h>
+#include <futurecpp.h>
 
 namespace espcpputils {
 class websocket_client

@@ -9,6 +9,9 @@
 // esp-idf includes
 #include <esp_log.h>
 
+// 3rdparty lib includes
+#include <futurecpp.h>
+
 namespace espcpputils {
 namespace {
 constexpr const char * const TAG = "ESPCPPUTILS";
