@@ -37,7 +37,6 @@ set(dependencies
 
     cpputils
     espchrono
-    expected
     fmt
 )
 
