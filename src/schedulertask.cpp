@@ -23,9 +23,9 @@ SchedulerTask::SchedulerTask(const char *name, void (&setupCallback)(), void (&l
 
 void SchedulerTask::loop()
 {
-    if (m_lastUpdate && espchrono::ago(*m_lastUpdate) < m_loopInterval)
+    if (!m_wasInitialized || (m_lastUpdate && espchrono::ago(*m_lastUpdate) < m_loopInterval))
         return;
-
+    
     ESP_LOGV(TAG, "start %s", m_name);
 
     if (m_intervalImportant)

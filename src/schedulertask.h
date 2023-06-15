@@ -23,7 +23,7 @@ public:
     const espchrono::millis_clock::duration&maxElapsed() const { return m_maxElapsed; }
     int callCount() const { return m_callCount; }
 
-    void setup() const { m_setupCallback(); }
+    void setup() const { m_setupCallback(); m_wasInitialized = true; }
     void loop();
     void pushStats(bool printTask);
 
@@ -47,5 +47,6 @@ private:
     espchrono::millis_clock::duration m_totalElapsedTemp;
     espchrono::millis_clock::duration m_maxElapsedTemp;
     int m_callCountTemp{};
+    bool m_wasInitialized{};
 };
 } // namespace espcpputils
